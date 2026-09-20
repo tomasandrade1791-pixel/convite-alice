@@ -9,11 +9,11 @@ if (window.supabase && SUPABASE_URL && SUPABASE_PUBLIC_KEY) {
   window.AliceDB = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLIC_KEY);
 }
 
-// Corrige a imagem da etapa da cartinha sem alterar a etapa do nome Alice.
+// Usa a cartinha fechada correta, sem alterar a etapa do nome Alice.
 document.addEventListener('DOMContentLoaded', () => {
   const env = document.getElementById('envimg');
   if (env) {
-    env.src = 'envelope-site.svg?v=3';
+    env.src = 'IMG-20260919-WA0104.jpg?v=2';
     env.removeAttribute('srcset');
   }
 });
