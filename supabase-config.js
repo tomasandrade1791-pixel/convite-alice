@@ -9,11 +9,11 @@ if (window.supabase && SUPABASE_URL && SUPABASE_PUBLIC_KEY) {
   window.AliceDB = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLIC_KEY);
 }
 
-// Corrige a cartinha fechada da tela inicial sem alterar a etapa do nome Alice.
+// Corrige a imagem da etapa da cartinha sem alterar a etapa do nome Alice.
 document.addEventListener('DOMContentLoaded', () => {
   const env = document.getElementById('envimg');
   if (env) {
-    env.src = 'envelope-site.svg?v=2';
+    env.src = 'envelope-site.svg?v=3';
     env.removeAttribute('srcset');
   }
 });
