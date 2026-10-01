@@ -58,6 +58,15 @@ document.addEventListener('DOMContentLoaded', () => {
       padding: 14px;
     }
 
+    #response .paper {
+      overflow: visible;
+    }
+
+    #response p:last-child {
+      margin-top: 26px;
+      text-align: center;
+    }
+
     @media (max-width: 650px) {
       .letterArt .paperContent {
         padding: 150px 12% 110px;
@@ -122,6 +131,14 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('rx').innerHTML = v
         ? '<strong>Oi! Eu sou a Alice! 💕⭐</strong><br><br>Muito obrigada por confirmar sua presença no meu chá de bebê! 🥹🍼<br><br>Mamãe e papai estão preparando tudo com muito carinho para esse dia, e saber que você estará lá para celebrar a minha chegada deixa esse momento ainda mais especial.<br><br>Mal posso esperar para te conhecer! 💙⭐<br><br>Nos vemos no meu chá!<br><br>Com carinho,<br><strong>Alice 🍼⭐</strong>'
         : '<strong>Oi! Eu sou a Alice! 💕⭐</strong><br><br>Tudo bem se você não conseguir estar presente no meu chá de bebê. 🥹💙<br><br>Mesmo de longe, seu carinho pela minha chegada já significa muito para minha família. ⭐<br><br>Se quiser deixar um presentinho para mim mesmo não podendo comparecer, será recebido com muito carinho. 🍼🎁<br><br><strong>CHAVE PIX — 47999037360</strong><br><br>Essa contribuição é totalmente opcional. O mais importante é saber que você torce pela minha chegada! 💙⭐<br><br>Com carinho,<br><strong>Alice 🍼⭐</strong>';
+
+      // Fluxo correto: confirmação → mensagem → lista de presentes.
+      const responseButton = document.querySelector('#response p:last-child .btn');
+      if (responseButton) {
+        responseButton.textContent = '🎁 VER LISTA DE PRESENTES';
+        responseButton.onclick = () => show('gifts');
+      }
+
       show('response');
     } catch (e) {
       console.error('Falha ao registrar confirmação:', e);
