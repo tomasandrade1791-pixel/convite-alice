@@ -77,6 +77,19 @@ document.addEventListener('DOMContentLoaded', () => {
   `;
   document.head.appendChild(style);
 
+  // Guarda o nome enquanto ele é digitado. Assim a confirmação não depende
+  // apenas do valor atual do campo quando o convidado chega à próxima tela.
+  const guestInput = document.getElementById('gn');
+  if (guestInput) {
+    const savedName = localStorage.getItem('aliceGuestName');
+    if (savedName && !guestInput.value) guestInput.value = savedName;
+    guestInput.addEventListener('input', () => {
+      const name = guestInput.value.trim();
+      if (name) localStorage.setItem('aliceGuestName', name);
+      else localStorage.removeItem('aliceGuestName');
+    });
+  }
+
   // Substitui a antiga rotina de confirmação somente depois que o convite
   // terminou de carregar. A confirmação só avança após o Supabase
   // confirmar o INSERT na tabela "confirmacoes".
@@ -89,10 +102,13 @@ document.addEventListener('DOMContentLoaded', () => {
         throw new Error('Conexão com o Supabase não foi inicializada.');
       }
 
-      const name = document.getElementById('gn').value.trim();
+      const input = document.getElementById('gn');
+      const name = (input?.value || localStorage.getItem('aliceGuestName') || '').trim();
       if (!name) {
         throw new Error('Nome do convidado não encontrado.');
       }
+
+      localStorage.setItem('aliceGuestName', name);
 
       const { error } = await window.AliceDB
         .from('confirmacoes')
