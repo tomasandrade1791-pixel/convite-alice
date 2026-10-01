@@ -2,8 +2,8 @@
 // Nunca coloque service_role ou qualquer chave secreta neste arquivo.
 window.AliceDB = null;
 
-const SUPABASE_URL = "";
-const SUPABASE_PUBLIC_KEY = "";
+const SUPABASE_URL = "https://pzhydhwkqqlowhfnrszd.supabase.co";
+const SUPABASE_PUBLIC_KEY = "sb_publishable_e2R0FHCX7CtG_idoo9LddQ_tAKB2K5u";
 
 if (window.supabase && SUPABASE_URL && SUPABASE_PUBLIC_KEY) {
   window.AliceDB = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLIC_KEY);
@@ -76,4 +76,48 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   `;
   document.head.appendChild(style);
+
+  // Substitui a antiga rotina de confirmação somente depois que o convite
+  // terminou de carregar. A confirmação só avança após o Supabase
+  // confirmar o INSERT na tabela "confirmacoes".
+  window.respond = async function (v) {
+    const buttons = document.querySelectorAll('#confirm .choice .btn');
+    buttons.forEach(b => b.disabled = true);
+
+    try {
+      if (!window.AliceDB) {
+        throw new Error('Conexão com o Supabase não foi inicializada.');
+      }
+
+      const name = document.getElementById('gn').value.trim();
+      if (!name) {
+        throw new Error('Nome do convidado não encontrado.');
+      }
+
+      const { error } = await window.AliceDB
+        .from('confirmacoes')
+        .insert({
+          Nome: name,
+          Confirmou: !!v,
+          Mensagem: ''
+        });
+
+      if (error) throw error;
+
+      const payload = { name, presence: !!v };
+      const d = JSON.parse(localStorage.getItem('rsvp') || '[]');
+      d.push({ ...payload, at: new Date().toISOString() });
+      localStorage.setItem('rsvp', JSON.stringify(d));
+
+      document.getElementById('rt').textContent = v ? '💙 Obrigada por confirmar!' : '🤍 Obrigada pelo carinho!';
+      document.getElementById('rx').innerHTML = v
+        ? '<strong>Oi! Eu sou a Alice! 💕⭐</strong><br><br>Muito obrigada por confirmar sua presença no meu chá de bebê! 🥹🍼<br><br>Mamãe e papai estão preparando tudo com muito carinho para esse dia, e saber que você estará lá para celebrar a minha chegada deixa esse momento ainda mais especial.<br><br>Mal posso esperar para te conhecer! 💙⭐<br><br>Nos vemos no meu chá!<br><br>Com carinho,<br><strong>Alice 🍼⭐</strong>'
+        : '<strong>Oi! Eu sou a Alice! 💕⭐</strong><br><br>Tudo bem se você não conseguir estar presente no meu chá de bebê. 🥹💙<br><br>Mesmo de longe, seu carinho pela minha chegada já significa muito para minha família. ⭐<br><br>Se quiser deixar um presentinho para mim mesmo não podendo comparecer, será recebido com muito carinho. 🍼🎁<br><br><strong>CHAVE PIX — 47999037360</strong><br><br>Essa contribuição é totalmente opcional. O mais importante é saber que você torce pela minha chegada! 💙⭐<br><br>Com carinho,<br><strong>Alice 🍼⭐</strong>';
+      show('response');
+    } catch (e) {
+      console.error('Falha ao registrar confirmação:', e);
+      alert('Não foi possível registrar sua confirmação agora. Por favor, tente novamente.');
+      buttons.forEach(b => b.disabled = false);
+    }
+  };
 });
