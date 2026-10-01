@@ -1,3 +1,4 @@
+// DEPLOY: 2026-10-01 — confirmação com nome persistido antes do RSVP.
 // Cole aqui SOMENTE a URL do projeto e a chave pública (publishable/anon).
 // Nunca coloque service_role ou qualquer chave secreta neste arquivo.
 window.AliceDB = null;
@@ -9,7 +10,6 @@ if (window.supabase && SUPABASE_URL && SUPABASE_PUBLIC_KEY) {
   window.AliceDB = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLIC_KEY);
 }
 
-// Usa a cartinha fechada correta, sem alterar a etapa do nome Alice.
 document.addEventListener('DOMContentLoaded', () => {
   const env = document.getElementById('envimg');
   if (env) {
@@ -17,8 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
     env.removeAttribute('srcset');
   }
 
-  // Ajuste da cartinha: mantém toda a moldura/detalhes azuis visíveis,
-  // deixa o laço no topo e impede que o texto fique sobre os ornamentos.
   const style = document.createElement('style');
   style.textContent = `
     .letterArt {
@@ -77,8 +75,6 @@ document.addEventListener('DOMContentLoaded', () => {
   `;
   document.head.appendChild(style);
 
-  // Guarda o nome enquanto ele é digitado. Assim a confirmação não depende
-  // apenas do valor atual do campo quando o convidado chega à próxima tela.
   const guestInput = document.getElementById('gn');
   if (guestInput) {
     const savedName = localStorage.getItem('aliceGuestName');
@@ -90,9 +86,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Substitui a antiga rotina de confirmação somente depois que o convite
-  // terminou de carregar. A confirmação só avança após o Supabase
-  // confirmar o INSERT na tabela "confirmacoes".
   window.respond = async function (v) {
     const buttons = document.querySelectorAll('#confirm .choice .btn');
     buttons.forEach(b => b.disabled = true);
