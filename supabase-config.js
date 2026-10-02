@@ -127,10 +127,10 @@ document.addEventListener('DOMContentLoaded', () => {
       d.push({ ...payload, at: new Date().toISOString() });
       localStorage.setItem('rsvp', JSON.stringify(d));
 
-      document.getElementById('rt').textContent = v ? '💙 Obrigada por confirmar!' : '🤍 Obrigada pelo carinho!';
+      document.getElementById('rt').textContent = v ? '💙 Obrigada por confirmar!' : '🤍 Sentiremos sua falta!';
       document.getElementById('rx').innerHTML = v
         ? '<strong>Oi! Eu sou a Alice! 💕⭐</strong><br><br>Muito obrigada por confirmar sua presença no meu chá de bebê! 🥹🍼<br><br>Mamãe e papai estão preparando tudo com muito carinho para esse dia, e saber que você estará lá para celebrar a minha chegada deixa esse momento ainda mais especial.<br><br>Mal posso esperar para te conhecer! 💙⭐<br><br>Nos vemos no meu chá!<br><br>Com carinho,<br><strong>Alice 🍼⭐</strong>'
-        : '<strong>Oi! Eu sou a Alice! 💕⭐</strong><br><br>Tudo bem se você não conseguir estar presente no meu chá de bebê. 🥹💙<br><br>Mesmo de longe, seu carinho pela minha chegada já significa muito para minha família. ⭐<br><br>Se quiser deixar um presentinho para mim mesmo não podendo comparecer, será recebido com muito carinho. 🍼🎁<br><br><strong>CHAVE PIX — 47999037360</strong><br><br>Essa contribuição é totalmente opcional. O mais importante é saber que você torce pela minha chegada! 💙⭐<br><br>Com carinho,<br><strong>Alice 🍼⭐</strong>';
+        : '<strong>Oi! Eu sou a Alice! 💕⭐</strong><br><br>Tudo bem se você não conseguir estar presente no meu chá de bebê. Eu sei que às vezes surgem compromissos e nem sempre conseguimos estar presentes em todos os momentos especiais. 🥹💙<br><br>Mesmo de longe, seu carinho pela minha chegada já significa muito para a minha família. ⭐<br><br>E se você quiser deixar um presentinho para mim mesmo não podendo comparecer, será recebido com muito carinho. 🍼🎁<br><br>Você pode enviar, se desejar, um presente pela nossa lista ou através do Pix abaixo:<br><br>47999037360<br><br>Essa contribuição é totalmente opcional. O mais importante é saber que você torce pela minha chegada! 💙⭐<br><br>Com carinho,<br><strong>Alice 🍼⭐</strong>';
 
       // Fluxo correto: confirmação → mensagem → lista de presentes.
       const responseButton = document.querySelector('#response p:last-child .btn');
