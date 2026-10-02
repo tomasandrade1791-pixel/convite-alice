@@ -147,3 +147,40 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 });
+
+// Dados do evento administrados pelo painel privado.
+// A página pública apenas lê estes valores; somente o painel autenticado pode alterá-los.
+document.addEventListener('DOMContentLoaded', async () => {
+  if (!window.AliceDB) return;
+  try {
+    const { data, error } = await window.AliceDB
+      .from('evento_alice')
+      .select('data_evento,horario,local_evento')
+      .eq('id', 1)
+      .maybeSingle();
+
+    if (error || !data) return;
+
+    const details = document.querySelectorAll('#letter .detail');
+    if (details[0] && data.data_evento) {
+      const value = details[0].querySelector('b');
+      details[0].innerHTML = '';
+      details[0].appendChild(value);
+      details[0].appendChild(document.createTextNode(data.data_evento));
+    }
+    if (details[1] && data.horario) {
+      const value = details[1].querySelector('b');
+      details[1].innerHTML = '';
+      details[1].appendChild(value);
+      details[1].appendChild(document.createTextNode(data.horario));
+    }
+    if (details[2] && data.local_evento) {
+      const value = details[2].querySelector('b');
+      details[2].innerHTML = '';
+      details[2].appendChild(value);
+      details[2].appendChild(document.createTextNode(data.local_evento));
+    }
+  } catch (e) {
+    console.warn('Não foi possível carregar os dados editáveis do evento:', e);
+  }
+});
