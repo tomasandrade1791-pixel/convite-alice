@@ -1,9 +1,9 @@
-// Cole aqui SOMENTE a URL do projeto e a chave pública (publishable/anon).
-// Nunca coloque service_role ou qualquer chave secreta neste arquivo.
+// Configuração pública do Supabase do convite da Alice.
+// Esta chave é a publishable/anon key e pode ficar no código do site.
 window.AliceDB = null;
 
-const SUPABASE_URL = "";
-const SUPABASE_PUBLIC_KEY = "";
+const SUPABASE_URL = "https://pzhydhwkqqlowhfnrszd.supabase.co";
+const SUPABASE_PUBLIC_KEY = "sb_publishable_e2R0FHCX7CtG_idoo9LddQ_tAKB2K5u";
 
 if (window.supabase && SUPABASE_URL && SUPABASE_PUBLIC_KEY) {
   window.AliceDB = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLIC_KEY);
